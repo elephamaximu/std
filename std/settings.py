@@ -56,7 +56,10 @@ ROOT_URLCONF = 'std.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'std', 'templates'),
+            os.path.join(BASE_DIR, 'stdmj', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,4 +127,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# 개발환경
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'std', 'static'),
+                     os.path.join(BASE_DIR, 'stdmj', 'static')]
+
+# 실행환경 (배포 시) ---> python manage.py collectstatic 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
