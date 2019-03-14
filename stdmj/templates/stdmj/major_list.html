@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
   <head>
-    <title>학생 리스트</title>
+    <title>전공 리스트</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,7 +11,7 @@
   </head>
   <body>
 
-  <!-- Nav tabs -->
+   <!-- Nav tabs -->
   <ul class="nav nav-tabs" id="navId">
     <li class="nav-item">
       <a href="/stdmj" class="nav-link">학생관리</a>
@@ -21,46 +21,39 @@
     </li>
   </ul>
   
-  
-
-
-   <br>
+     <br>
     <div class="container text-info">
         <div class="row">
-            <h1>학생 리스트</h1>
+            <h1>전공 리스트</h1>
         </div>
     </div>
-    <div class="container">
+     <div class="container">
         <br>
     </div>
 
     <div class="container">
       <div class="row">
-         <a href="{% url 'stdmj:student_new' %}" class="btn btn-outline-info btn-lg btn-block">신규 학생 등록 하기</a>
+         <a href="{% url 'stdmj:major_new' %}" class="btn btn-outline-info btn-lg btn-block">신규 전공 등록 하기</a>
       </div>
     </div>
  <div class="container">
         <br>
     </div>
-
     <div class="container">
       <div class="row">
-
+      
         <table class="table table-hover">
           <thead class="thead-light">
             <tr>
-              <th>학생 아이디</th>
-              <th>학생 이름</th>
-              <th>학생 전공</th>
+              <th>전공 아이디</th>
+              <th>전공 이름</th>
             </tr>
           </thead>
           <tbody>
-            {% for student in student_list  %}
+            {% for major in major_list  %}
             <tr>
-              <td><a href='{% url 'stdmj:student_detail' student.studentID %}'>{{student.studentID}}</a></td>
-              <td><a href='{% url 'stdmj:student_detail' student.studentID %}'>{{student.name}}</a></td>
-              <td><a href='{% url 'stdmj:student_detail' student.studentID %}'>{{student.major}}</a></td>
-           
+              <td><a href='{% url 'stdmj:major_detail' major.major_id %}'>{{major.major_id}}</a></td>
+              <td><a href='{% url 'stdmj:major_detail' major.major_id %}'>{{major.major_title}}</a></td>
             </tr>
           </tbody>
 {% endfor %}
@@ -68,7 +61,7 @@
       </div>
   </div>
 
-  <div class="container">
+      <div class="container">
   <!-- Pagination -->
     {% if is_paginated %}
     <nav>
@@ -108,7 +101,7 @@
     </nav>
     {% endif %}
     </div>
-  
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
