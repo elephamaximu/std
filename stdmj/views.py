@@ -100,7 +100,7 @@ def major_edit(request, pk):
         form = MajorModelForm(request.POST, request.FILES, instance=major)
         if form.is_valid():
             major.save()
-            return redirect('/stdmj/mj/')
+            return redirect('/stdmj/mj')
     else:
         form = MajorModelForm(instance=major)
     return render(request, 'stdmj/major_form.html', {'form':form})
