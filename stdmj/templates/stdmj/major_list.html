@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <title>전공 리스트</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+
+   <!-- Nav tabs -->
+  <ul class="nav nav-tabs" id="navId">
+    <li class="nav-item">
+      <a href="/stdmj" class="nav-link">학생관리</a>
+    </li>
+    <li class="nav-item">
+      <a href="/stdmj/mj" class="nav-link">전공관리</a>
+    </li>
+  </ul>
+  
+     <br>
+    <div class="container text-info">
+        <div class="row">
+            <h1>전공 리스트</h1>
+        </div>
+    </div>
+     <div class="container">
+        <br>
+    </div>
+
+    <div class="container">
+      <div class="row">
+         <a href="{% url 'stdmj:major_new' %}" class="btn btn-outline-info btn-lg btn-block">신규 전공 등록 하기</a>
+      </div>
+    </div>
+ <div class="container">
+        <br>
+    </div>
+    <div class="container">
+      <div class="row">
+      
+        <table class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>전공 아이디</th>
+              <th>전공 이름</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for major in major_list  %}
+            <tr>
+              <td><a href='{% url 'stdmj:major_detail' major.major_id %}'>{{major.major_id}}</a></td>
+              <td><a href='{% url 'stdmj:major_detail' major.major_id %}'>{{major.major_title}}</a></td>
+            </tr>
+          </tbody>
+{% endfor %}
+        </table>
+      </div>
+  </div>
+
+      <div class="container">
+  <!-- Pagination -->
+    {% if is_paginated %}
+    <nav>
+        <ul class="pagination justify-content-center" style="margin:20px 0">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                <span>Prev</span>
+            </a>
+            </li>
+        {% else %}
+            <li class="disabled page-item">
+            <a class="page-link" href="#">
+                <span>Prev</span>
+            </a>
+            </li>
+        {% endif %}
+        {% for page in page_range %}
+            <li {% if page == page_obj.number %} class="active page-item" {% endif %}>
+            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+            </li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                <span>Next</span>
+            </a>
+            </li>
+        {% else %}
+            <li {% if not page_obj.has_next %}class="disabled page-item"{% endif %}>
+            <a class="page-link" href="#">
+                <span>Next</span>
+            </a>
+            </li>
+        {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
