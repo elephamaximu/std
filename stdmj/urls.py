@@ -15,5 +15,9 @@ urlpatterns = [
     path('mj/new', views.major_new, name="major_new"),
     path("<pk>/edit/", views.student_edit, name="student_edit"),
     path("mj/<pk>/edit/", views.major_edit, name="major_edit"),
+    path("searchData/", views.searchData, name='search'),
+    path("mj/searchData2/", views.searchData2, name='search2'),
+    path('upload_csv', views.upload_csv, name='upload_csv'),
+    path('upload_csv2', views.upload_csv2, name='upload_csv2'), 
 ]
 
