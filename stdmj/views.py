@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from . models import Major, Student, StudentModelForm, MajorModelForm
 from . forms import MajorForm, StudentForm
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers import serialize
 
 # student_list = ListView.as_view(model=Student)
 # major_list = ListView.as_view(model=Major)
+
 
 class StudentListView(ListView):
     model = Student
@@ -104,3 +108,74 @@ def major_edit(request, pk):
     else:
         form = MajorModelForm(instance=major)
     return render(request, 'stdmj/major_form.html', {'form':form})
+
+@csrf_exempt
+def searchData(request):
+    data = request.POST['name']
+    student = Student.objects.filter(name__contains=data)
+    print(student)
+    return render(request, 'stdmj/student_list_table.html', {'student_list':student})
+
+@csrf_exempt
+def searchData2(request):
+    data2 = request.POST['mjname']
+    major = Major.objects.filter(major_title__contains=data2)
+    print(major)
+    return render(request, 'stdmj/major_list_table.html', {'major_list':major})
+
+def upload_csv(request):
+    data = {}
+    if "GET" == request.method:
+        return render(request, "stdmj/upload_csv.html", data)
+        # if not GET, then proceed
+  
+    csv_file = request.FILES["csv_file"]
+    if not csv_file.name.endswith('.csv'):
+        message.error(request, '파일이 csv 타입이 아닙니다.')
+        return HttpResponseRedirect(reverse("stdmj:upload_csv"))
+        
+    file_data = csv_file.read().decode("utf-8")	
+    lines = file_data.split("\n")
+    for line in lines:
+        fields = line.split(",")
+        data_dict = {}
+        data_dict["studentID"] = fields[0]
+        data_dict["name"] = fields[1]
+        data_dict["major"] = fields[2]
+        data_dict["phone"] = fields[3]
+        data_dict["address"] = fields[4]
+        data_dict["hobby"] = fields[5]
+        data_dict["skill"] = fields[6]
+
+        
+        form = StudentForm(data_dict)
+        if form.is_valid():
+            Student.objects.create(**form.cleaned_data)
+            # form.save()
+            return redirect(reverse("stdmj:student_list"))
+
+def upload_csv2(request):
+    data = {}
+    if "GET" == request.method:
+        return render(request, "stdmj/upload_csv2.html", data)
+        # if not GET, then proceed
+  
+    csv_file = request.FILES["csv_file"]
+    if not csv_file.name.endswith('.csv'):
+        message.error(request, '파일이 csv 타입이 아닙니다.')
+        return HttpResponseRedirect(reverse("stdmj:upload_csv2"))
+        
+    file_data = csv_file.read().decode("utf-8")	
+    lines = file_data.split("\n")
+    for line in lines:
+        fields = line.split(",")
+        data_dict = {}
+        data_dict["major_id"] = fields[0]
+        data_dict["major_title"] = fields[1]
+        
+        form = MajorForm(data_dict)
+        if form.is_valid():
+            Major.objects.create(**form.cleaned_data)
+            # form.save()
+            return redirect(reverse("stdmj:major_list"))
+            

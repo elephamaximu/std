@@ -15,3 +15,5 @@ class StudentForm(forms.Form):
     address = forms.CharField(label="주소", max_length=100, required=False)
     hobby =  forms.CharField(label="취미", max_length=300, required=False)
     skill = forms.CharField(label="보유 기술", max_length=100, required=False)
+
+   
